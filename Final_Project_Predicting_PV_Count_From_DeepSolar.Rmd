@@ -1,8 +1,11 @@
 ---
-title: "Deep_Solar_Dataset_Statistical_Machine_Learning"
+title: "Statistical Machine Learning Final Project: Predicting numbers of Photovoltaic Systems in Census Tracts based on data in DeepSolar Dataset"
 author: "Christopher LaBorde"
 date: '2022-06-06'
-output: html_document
+output: 
+  html_document:
+    toc: true
+
 ---
 
 ```{r setup, include=FALSE}
@@ -228,6 +231,8 @@ The plot of the levels of significance of predictors produced by the boruta meth
 
 Now we will fit machine learning models to the data. Four models will be fit, and the performance of each of the models will be evaluated both quantitatively and graphically. The first model we will fit will be a simple linear regression. 
 
+Before we fit the model, we will split the data into a training and testing set, as well as use k-folds cross validation. This will allow each model to be run on all folds, and the average of the model fit to these different datasets/folds will be the model created. 
+
 ### Model 1: Simple Linear Regression
 ```{r  echo = F}
 # Split the data
@@ -297,6 +302,8 @@ Here the $R^2$ value is quite low, around 0.33. This means that 33 percent of th
 augment(solarFit, new_data = solarTest) %>%
   rmse(truth = solar_system_count, estimate = .pred)
 ```
+
+We will now plot the values predicted by the models against the actual values in the test set.
 
 ```{r  echo = F}
 # Generate predicted values for solar_system_count for each observation in the testing set and compare to actual
@@ -608,9 +615,11 @@ For the tuned boosted tree model, an $R^2$ value of 0.75, and a rmse of 27.66 we
 
 ## Conclusion
 
-Out of all of the models fitted, the random forest model was the most accurate predictor of the number of Photovoltaic systems installed in a census tract on the test data, with a rmse value of 27.5 and an $R^2$ value of 0.755. 
+Out of all of the models fitted, the random forest model was the most accurate predictor of the number of Photovoltaic systems installed in a census tract on the test data, with a rmse value of 27.5 and an $R^2$ value of 0.755. With more time, I would want to tune the boosted random forest model to see its accuracy, as well as investigate applying regularized models to the data. 
 
-Because this dataset contained so many predictors, it would be interesting to perform a more thorough analysis  of the relationships between the predictors and the response variable. The variables included in this analysis were chosen from the set of all variables by intuitive evaluation of whether the value of the predictor would have a significant effect on the response. Likely, some important variables were overlooked, and some insignificant variables were included. 
+Because this dataset contained so many predictors (168 of them), it would be interesting to perform a more thorough analysis  of the relationships between the predictors and the response variable. The variables included in this analysis were chosen from the set of all variables by intuitive evaluation of whether the value of the predictor would have a significant effect on the response. Likely, some important variables were overlooked, and some insignificant variables were included. 
+
+If I had more time, I would perform Principal component analysis on the dataset to reduce the dimensionality of the dataset. I imagine that many of the variables are correlated, and I would be interested to see how categorizing the observations along principal component axes turned out. This is my Final Project, thank you for reading, I hope you enjoyed it and learned a little something about the Deep Solar dataset.
 
 
 
